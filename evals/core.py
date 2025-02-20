@@ -1,8 +1,9 @@
 import json
 import asyncio
+from bias import BiasEvaluator
+from keys import OPEN_AI_API_KEY
 from dataclasses import dataclass
 from typing import Dict, List, Any
-from bias import BiasEvaluator
 from accuracy import AccuracyEvaluator
 from relevancy import AsyncRelevancyEvaluator
 
@@ -88,7 +89,7 @@ class CoreEvaluator:
 
   
 if __name__ == "__main__":
-    evaluator = CoreEvaluator(openai_api_key="xxx", coherence_batch_size=5)  # Replace with your OpenAI API key
+    evaluator = CoreEvaluator(openai_api_key=OPEN_AI_API_KEY, coherence_batch_size=5)  # Replace with your OpenAI API key
 
     with open('example_model_responses.json') as f:
         model_responses = json.load(f)
