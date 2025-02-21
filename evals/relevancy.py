@@ -291,7 +291,7 @@ class AsyncRelevancyEvaluator:
     
 async def main():
     evaluator = AsyncRelevancyEvaluator(
-        "xxxxxx",  # Add your OpenAI API key here
+        "xxxxx",  # Replace with your OpenAI API key
         coherence_batch_size=4
     )
     

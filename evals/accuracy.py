@@ -587,7 +587,7 @@ class AccuracyEvaluator:
         return formatted_intervention
 
 def main():
-    evaluator = AccuracyEvaluator("xxxxx")  # Replace 'xxxxx' with your OpenAI API key
+    evaluator = AccuracyEvaluator("xxxxx")  # Replace with your OpenAI API key
     
 	# Load example_model_responses.json file and loop over all outputs and their respective blocks	
     with open('example_model_responses.json') as f:

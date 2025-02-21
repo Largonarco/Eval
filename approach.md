@@ -5,19 +5,14 @@ I came up with a simple Gender Evaluator that assumes there are only 2 genders a
 
 ### Existing Setup
 
-I went about creating an Bias Evaluator by doing some simple checks as follows
+Intitially I tried analysing gendered terms/pronouns and their relationship with other parts of the text to understand gender representation by using a NLP library. I also tried identifying entity-pronoun relationships (where a pronoun is referring to a person) to exclude the pronouns that directly refer to an entity. But this approach failed to catch the subtle biases in the text and the complex structure of sentences so I just chose to use an LLM as it can understand these subtleties much better and give a defintive outcome.
 
-1. Only the pragraph blocks are analysed as they consist of the relevant content.
-2. The blocks are then analysed for gendered terms/pronouns and also entity-pronoun relationships (where a pronoun is referring to a person) as these are referencing an entity they shouldn't count as bias. Spacy an NLP library is used to identify token dependencies.
-   - Entities are extracted from the text first and dependency parsing is utilised in identifying if a known gendered pronoun refers to an entity.
-3. After this the sentences are checked for pre-specified neutral professional terms and if those terms are surrounded by gendered pronouns implying an implicit bias
-4. Based on the findings I am calculating bias metrics and providingg actionable feedback.
-
-The dependency parsing logic works good but not in all cases. Simple structured structure are evaluated better compared to complex structured sentences. Although I feel with a bit fine tuning to the logic it could be made to perform better.
+1. Combine all the paragraphs into a single string.
+2. Sent it to OpenAI API along with a free-form prompt (to not constraint it to look for specific patterns) but with a structured output format.
 
 ### Future Setup
 
-I would go for an open-source LLM evaluation approach as embedding models would identify sentence structures and word co-relations much better, thus identifying type of bias appropriately.
+I would go for an open-source LLM evaluation approach as embedding models are better at identifying sentence structures and word co-relations, thus identifying type of bias appropriately.
 
 1. Would setup a set of open-source LLMs, for example 3 models.
 2. Would provide a structured prompt to all three models in parallel to identify gender bias and generate a score.

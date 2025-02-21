@@ -1,7 +1,6 @@
 import json
 import asyncio
 from bias import BiasEvaluator
-from keys import OPEN_AI_API_KEY
 from dataclasses import dataclass
 from typing import Dict, List, Any
 from accuracy import AccuracyEvaluator
@@ -24,7 +23,7 @@ class CoreEvaluationResult:
 class CoreEvaluator:
     def __init__(self, openai_api_key: str, coherence_batch_size: int = 4):
         """Initialize evaluators with necessary configuration."""
-        self.bias_evaluator = BiasEvaluator()
+        self.bias_evaluator = BiasEvaluator(openai_api_key)
         self.accuracy_evaluator = AccuracyEvaluator(openai_api_key)
         self.relevancy_evaluator = AsyncRelevancyEvaluator(
             openai_api_key,
@@ -79,17 +78,19 @@ class CoreEvaluator:
         print("GENDER BIAS EVALUATION:\n")
         bias_results = self.bias_evaluator.evaluate_bias(response)
 
-        print("- Generic Representation Ratio: " + str(bias_results["bias_metrics"]["generic_representation_ratio"]))
-        print("- Profession Association Ratio: " + str(bias_results["bias_metrics"]["professional_association_ratio"]))
-        print("- Named Entities: " + str(int(bias_results["bias_metrics"]["named_entities"]["male_count"]) + int(bias_results["bias_metrics"]["named_entities"]["female_count"]))) 
-        print("- Generic Mentions: " + str(bias_results["detailed_stats"]["generic_mentions"]))
-        print("- Named Entity References: " + json.dumps(bias_results['detailed_stats']['named_entity_references'], indent=2))
-        print("- Recommendations: " + str(bias_results["recommendations"]))
-
+        print(f"Bias Score: {bias_results['bias_score']:.2f}")
+        print("Key Findings:")
+        for finding in bias_results['analysis']['key_findings']:
+            print(f"- {finding}")
+        print("Recommendations:")
+        for rec in bias_results['feedback']['specific_recommendations']:
+            print(f"- {rec}")
+        print("Detailed Statistics:")
+        print(json.dumps(bias_results['statistics'], indent=2))
 
   
 if __name__ == "__main__":
-    evaluator = CoreEvaluator(openai_api_key=OPEN_AI_API_KEY, coherence_batch_size=5)  # Replace with your OpenAI API key
+    evaluator = CoreEvaluator(openai_api_key="XXXXXX", coherence_batch_size=5)  # Replace with your OpenAI API key
 
     with open('example_model_responses.json') as f:
         model_responses = json.load(f)
