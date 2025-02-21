@@ -89,6 +89,8 @@ The script `generate_model_responses.py` will create documents in parallel by sa
 
 ### 3. Run Evals
 
+Before running the evaluation pipeline add the OpenAI key in evals/core.py main function.
+
 ```
 python evals/core.py
 <------------------------------------------------------------>
